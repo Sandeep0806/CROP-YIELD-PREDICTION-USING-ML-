@@ -1,0 +1,89 @@
+@startuml Crop Yield Prediction System - Entity Relationship Diagram
+
+entity "PredictionRequest" {
+  * cropType : string
+  * area : float
+  * soilPh : float
+  * soilMoisture : float
+  * nitrogen : float
+  * phosphorus : float
+  * potassium : float
+  * temperature : float
+  * rainfall : float
+  * humidity : float
+  * season : string
+  --
+  * requestId : UUID
+  * timestamp : DateTime
+}
+
+entity "PredictionResponse" {
+  * responseId : UUID
+  * predictedYield : float
+  * confidence : int
+  * timestamp : DateTime
+}
+
+entity "Recommendation" {
+  * recommendationId : UUID
+  * text : string
+  * priority : int
+  * category : string
+}
+
+entity "RiskFactor" {
+  * riskId : UUID
+  * description : string
+  * severity : string
+  * category : string
+}
+
+entity "MLModel" {
+  * modelId : UUID
+  * modelType : string
+  * version : string
+  * trainingDate : DateTime
+  * accuracy : float
+  * filePath : string
+}
+
+entity "ModelMetrics" {
+  * metricId : UUID
+  * mae : float
+  * rmse : float
+  * r2Score : float
+  * trainingSamples : int
+  * testSamples : int
+}
+
+PredictionRequest ||--|| PredictionResponse : generates
+PredictionResponse ||--o{ Recommendation : contains
+PredictionResponse ||--o{ RiskFactor : contains
+MLModel ||--|| ModelMetrics : has
+MLModel ||--o{ PredictionResponse : used_in
+
+note right of PredictionRequest
+  Input data from user
+  form submission
+end note
+
+note right of PredictionResponse
+  ML model output
+  with confidence score
+end note
+
+note right of MLModel
+  Trained Random Forest
+  Regressor model
+end note
+
+@enduml
+
+
+
+
+
+
+
+
+

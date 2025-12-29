@@ -1,0 +1,93 @@
+@startuml Crop Yield Prediction System - Class Diagram
+
+package "Frontend (Next.js)" {
+  class HomePage {
+    - predictionData: any
+    - isLoading: boolean
+    - error: string | null
+    + handlePrediction(formData): void
+  }
+  
+  class PredictionForm {
+    - formData: FormData
+    + handleChange(event): void
+    + handleSubmit(event): void
+  }
+  
+  class PredictionResults {
+    - data: PredictionData
+    + getYieldColor(yield): string
+    + getConfidenceColor(confidence): string
+  }
+  
+  class Dashboard {
+    + renderCharts(): void
+  }
+  
+  class PredictionAPI {
+    + POST(request): Response
+  }
+}
+
+package "ML Service (Python)" {
+  class FastAPIServer {
+    + app: FastAPI
+    + predictor: CropYieldPredictor
+    + startup(): void
+    + predict(request): Response
+  }
+  
+  class CropYieldPredictor {
+    - model: RandomForestRegressor
+    - crop_encoder: LabelEncoder
+    - season_encoder: LabelEncoder
+    + predict(input_data): Dict
+    - calculate_confidence(input_data): int
+    - generate_recommendations(input_data, yield): List[str]
+    - identify_risks(input_data): List[str]
+  }
+  
+  class ModelTrainer {
+    + generate_synthetic_data(n_samples): DataFrame
+    + train_model(): Model
+    + evaluate_model(): Metrics
+  }
+}
+
+package "Data Models" {
+  class PredictionRequest {
+    + cropType: string
+    + area: string
+    + soilPh: string
+    + soilMoisture: string
+    + nitrogen: string
+    + phosphorus: string
+    + potassium: string
+    + temperature: string
+    + rainfall: string
+    + humidity: string
+    + season: string
+  }
+  
+  class PredictionResponse {
+    + predictedYield: float
+    + confidence: int
+    + recommendations: List[str]
+    + riskFactors: List[str]
+  }
+}
+
+' Relationships
+HomePage --> PredictionForm : uses
+HomePage --> PredictionResults : displays
+HomePage --> PredictionAPI : calls
+PredictionAPI --> FastAPIServer : forwards to
+FastAPIServer --> CropYieldPredictor : uses
+CropYieldPredictor --> ModelTrainer : loads model from
+PredictionAPI ..> PredictionRequest : receives
+PredictionAPI ..> PredictionResponse : returns
+CropYieldPredictor ..> PredictionResponse : creates
+
+@enduml
+
+

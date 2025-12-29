@@ -1,0 +1,71 @@
+@startuml Crop Yield Prediction System - Use Case Diagram
+
+left to right direction
+
+actor Farmer as farmer
+actor "Agricultural Expert" as expert
+actor "System Admin" as admin
+
+rectangle "Crop Yield Prediction System" {
+  usecase "View Dashboard" as UC1
+  usecase "Submit Prediction Request" as UC2
+  usecase "View Prediction Results" as UC3
+  usecase "View Analytics Charts" as UC4
+  usecase "View Recommendations" as UC5
+  usecase "View Risk Factors" as UC6
+  usecase "Compare with Industry Average" as UC7
+  usecase "Train ML Model" as UC8
+  usecase "Monitor System Health" as UC9
+  usecase "Manage ML Service" as UC10
+}
+
+farmer --> UC1 : Uses
+farmer --> UC2 : Uses
+farmer --> UC3 : Uses
+farmer --> UC4 : Uses
+farmer --> UC5 : Uses
+farmer --> UC6 : Uses
+farmer --> UC7 : Uses
+
+expert --> UC1 : Uses
+expert --> UC2 : Uses
+expert --> UC3 : Uses
+expert --> UC4 : Uses
+expert --> UC5 : Reviews
+expert --> UC6 : Reviews
+
+admin --> UC8 : Performs
+admin --> UC9 : Monitors
+admin --> UC10 : Manages
+
+UC2 ..> UC3 : triggers
+UC3 ..> UC5 : includes
+UC3 ..> UC6 : includes
+UC3 ..> UC7 : includes
+
+note right of UC2
+  Input fields:
+  - Crop type
+  - Area, Soil properties
+  - Nutrients, Weather
+  - Season
+end note
+
+note right of UC3
+  Displays:
+  - Predicted yield
+  - Confidence level
+  - Recommendations
+  - Risk factors
+end note
+
+@enduml
+
+
+
+
+
+
+
+
+

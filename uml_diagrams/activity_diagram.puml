@@ -1,0 +1,71 @@
+@startuml Crop Yield Prediction - Activity Diagram
+
+start
+
+:User opens application;
+:Display dashboard with statistics;
+
+:User fills prediction form;
+
+partition "Form Validation" {
+  :Validate all required fields;
+  if (All fields valid?) then (yes)
+    :Enable submit button;
+  else (no)
+    :Show validation errors;
+    stop
+  endif
+}
+
+:User clicks "Predict Yield";
+:Set loading state = true;
+:Disable form;
+
+partition "API Call" {
+  :Send POST request to /api/predict;
+  :Forward request to ML service;
+  
+  if (ML service available?) then (yes)
+    :Send data to ML service;
+  else (no)
+    :Return error message;
+    :Display error to user;
+    stop
+  endif
+}
+
+partition "ML Processing" {
+  :Load trained model;
+  :Encode categorical features;
+  :Prepare feature array;
+  :Run prediction;
+  :Calculate confidence score;
+  :Generate recommendations;
+  :Identify risk factors;
+}
+
+:Return prediction results;
+
+partition "Display Results" {
+  :Set loading state = false;
+  :Display predicted yield;
+  :Display confidence bar;
+  :Display recommendations;
+  :Display risk factors;
+  :Display yield comparison;
+}
+
+:User reviews results;
+
+if (User wants new prediction?) then (yes)
+  :Clear form;
+  :Reset results;
+else (no)
+  stop
+endif
+
+stop
+
+@enduml
+
+

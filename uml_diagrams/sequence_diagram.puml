@@ -1,0 +1,66 @@
+@startuml Crop Yield Prediction - Sequence Diagram
+
+actor User
+participant "Browser" as Browser
+participant "Next.js Frontend" as Frontend
+participant "Next.js API Route" as API
+participant "FastAPI ML Service" as MLService
+participant "ML Model" as Model
+
+User -> Browser: Opens http://localhost:3000
+Browser -> Frontend: Loads application
+Frontend -> Browser: Renders dashboard
+
+User -> Browser: Fills prediction form
+User -> Browser: Clicks "Predict Yield"
+Browser -> Frontend: Submit form data
+
+Frontend -> Frontend: Set isLoading = true
+Frontend -> API: POST /api/predict\n(formData)
+
+API -> MLService: POST /predict\n(JSON data)
+activate MLService
+
+MLService -> MLService: Validate input data
+MLService -> Model: Load trained model
+activate Model
+
+MLService -> Model: Encode categorical features
+MLService -> Model: Prepare feature array
+MLService -> Model: Predict yield
+Model --> MLService: predictedYield
+
+MLService -> MLService: Calculate confidence
+MLService -> MLService: Generate recommendations
+MLService -> MLService: Identify risk factors
+
+Model --> MLService: Prediction complete
+deactivate Model
+
+MLService --> API: JSON Response\n{predictedYield, confidence,\nrecommendations, riskFactors}
+deactivate MLService
+
+API --> Frontend: Return prediction data
+
+alt Success
+  Frontend -> Frontend: Set predictionData
+  Frontend -> Frontend: Set isLoading = false
+  Frontend -> Browser: Display results
+  Browser -> User: Show prediction results
+else Error
+  Frontend -> Frontend: Set error message
+  Frontend -> Frontend: Set isLoading = false
+  Frontend -> Browser: Display error
+  Browser -> User: Show error message
+end
+
+@enduml
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,75 @@
+@startuml Crop Yield Prediction - State Diagram
+
+[*] --> Idle : Application loaded
+
+state Idle {
+  :Display empty form;
+  :Show placeholder message;
+}
+
+Idle --> FormFilling : User starts entering data
+
+state FormFilling {
+  :User enters crop data;
+  :Validate inputs;
+}
+
+FormFilling --> FormFilling : Continue editing
+FormFilling --> FormReady : All fields valid
+FormFilling --> Idle : User cancels
+
+state FormReady {
+  :All fields validated;
+  :Submit button enabled;
+}
+
+FormReady --> Processing : User submits form
+FormReady --> FormFilling : User edits form
+
+state Processing {
+  :Show loading indicator;
+  :Disable form;
+  :API call in progress;
+}
+
+Processing --> Success : Prediction successful
+Processing --> Error : Prediction failed
+Processing --> ServiceUnavailable : ML service down
+
+state Success {
+  :Display predicted yield;
+  :Show confidence level;
+  :Display recommendations;
+  :Show risk factors;
+  :Display comparison chart;
+}
+
+state Error {
+  :Display error message;
+  :Show error details;
+  :Enable retry option;
+}
+
+state ServiceUnavailable {
+  :Display service error;
+  :Show instructions;
+  :Enable retry option;
+}
+
+Success --> Idle : User clicks "New Prediction"
+Success --> FormFilling : User edits and resubmits
+Error --> FormReady : User retries
+Error --> Idle : User cancels
+ServiceUnavailable --> Processing : User retries
+ServiceUnavailable --> Idle : User cancels
+
+@enduml
+
+
+
+
+
+
+
+
+

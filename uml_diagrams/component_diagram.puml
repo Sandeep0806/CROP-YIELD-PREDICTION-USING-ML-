@@ -1,0 +1,78 @@
+@startuml Crop Yield Prediction System - Component Diagram
+
+package "Frontend Layer" {
+  component [Next.js Application] as NextApp {
+    component [HomePage] as HomePage
+    component [PredictionForm] as Form
+    component [PredictionResults] as Results
+    component [Dashboard] as Dashboard
+  }
+  
+  component [Next.js API Routes] as NextAPI {
+    component [/api/predict] as PredictAPI
+  }
+}
+
+package "ML Service Layer" {
+  component [FastAPI Server] as FastAPI {
+    component [Prediction Endpoint] as PredictEP
+    component [Health Check] as Health
+  }
+  
+  component [ML Prediction Service] as MLService {
+    component [CropYieldPredictor] as Predictor
+    component [Model Loader] as Loader
+    component [Recommendation Engine] as Recommender
+    component [Risk Analyzer] as RiskAnalyzer
+  }
+  
+  component [ML Model] as Model {
+    component [Random Forest Model] as RFModel
+    component [Label Encoders] as Encoders
+  }
+}
+
+package "Data Layer" {
+  database "Model Files" as ModelFiles {
+    component [crop_yield_model.pkl] as ModelFile
+    component [crop_encoder.pkl] as CropEncoder
+    component [season_encoder.pkl] as SeasonEncoder
+  }
+}
+
+' Connections
+HomePage --> Form : uses
+HomePage --> Results : displays
+HomePage --> Dashboard : includes
+HomePage --> PredictAPI : calls
+
+PredictAPI --> FastAPI : HTTP Request
+
+FastAPI --> PredictEP : routes to
+FastAPI --> Health : routes to
+
+PredictEP --> MLService : uses
+MLService --> Predictor : contains
+MLService --> Loader : uses
+MLService --> Recommender : uses
+MLService --> RiskAnalyzer : uses
+
+Predictor --> Model : loads
+Loader --> ModelFiles : reads from
+Model --> RFModel : contains
+Model --> Encoders : contains
+
+ModelFiles --> ModelFile : stores
+ModelFiles --> CropEncoder : stores
+ModelFiles --> SeasonEncoder : stores
+
+@enduml
+
+
+
+
+
+
+
+
+

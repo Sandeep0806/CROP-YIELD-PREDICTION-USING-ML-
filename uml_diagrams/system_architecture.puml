@@ -1,0 +1,116 @@
+@startuml Crop Yield Prediction System - System Architecture
+
+!define RECTANGLE class
+
+package "Presentation Layer" {
+  RECTANGLE "Web Browser" as Browser {
+    + React Components
+    + Tailwind CSS
+    + Recharts
+  }
+}
+
+package "Application Layer" {
+  RECTANGLE "Next.js Frontend" as Frontend {
+    + HomePage Component
+    + PredictionForm Component
+    + PredictionResults Component
+    + Dashboard Component
+  }
+  
+  RECTANGLE "Next.js API Routes" as NextAPI {
+    + /api/predict endpoint
+    + Error handling
+    + Request forwarding
+  }
+}
+
+package "Service Layer" {
+  RECTANGLE "FastAPI Server" as FastAPI {
+    + /predict endpoint
+    + /health endpoint
+    + CORS middleware
+    + Request validation
+  }
+  
+  RECTANGLE "ML Prediction Service" as MLService {
+    + CropYieldPredictor class
+    + Model loading
+    + Feature encoding
+    + Prediction logic
+    + Recommendation generation
+    + Risk analysis
+  }
+}
+
+package "Data Layer" {
+  RECTANGLE "ML Models" as Models {
+    + crop_yield_model.pkl
+    + crop_encoder.pkl
+    + season_encoder.pkl
+    + feature_columns.json
+  }
+  
+  RECTANGLE "Training Data" as TrainingData {
+    + Synthetic dataset
+    + 5000 samples
+    + 11 features
+  }
+}
+
+package "Infrastructure" {
+  RECTANGLE "Node.js Runtime" as NodeJS {
+    + Port 3000
+    + Next.js framework
+  }
+  
+  RECTANGLE "Python Runtime" as Python {
+    + Port 8000
+    + FastAPI framework
+    + scikit-learn
+    + pandas, numpy
+  }
+}
+
+' Connections
+Browser --> Frontend : HTTP/HTTPS
+Frontend --> NextAPI : Internal API calls
+NextAPI --> FastAPI : HTTP requests
+FastAPI --> MLService : Method calls
+MLService --> Models : File I/O
+MLService --> TrainingData : Reads (training)
+
+Frontend ..> NodeJS : runs on
+FastAPI ..> Python : runs on
+
+note top of Browser
+  User Interface
+  - Modern responsive design
+  - Real-time updates
+  - Error handling
+end note
+
+note right of MLService
+  Machine Learning
+  - Random Forest Algorithm
+  - Feature Engineering
+  - Model Inference
+end note
+
+note bottom of Models
+  Model Storage
+  - Serialized models
+  - Encoders
+  - Configuration files
+end note
+
+@enduml
+
+
+
+
+
+
+
+
+

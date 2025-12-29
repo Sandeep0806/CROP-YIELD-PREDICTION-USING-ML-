@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Crop Yield Prediction",
+    "slug": "crop-yield-prediction",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#22c55e"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.cropyield.prediction"
+    },
+    "android": {
+      "package": "com.cropyield.prediction"
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "crop-yield"
+  }
+}
+

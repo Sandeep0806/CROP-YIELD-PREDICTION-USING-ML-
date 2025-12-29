@@ -1,0 +1,86 @@
+@startuml Crop Yield Prediction System - Deployment Diagram
+
+node "User's Browser" {
+  artifact "Web Browser" as Browser
+  Browser : Chrome/Firefox/Safari
+  Browser : React Components
+}
+
+node "Frontend Server" {
+  artifact "Next.js Application" as NextApp {
+    - Port: 3000
+    - Framework: Next.js 14
+    - Language: TypeScript
+  }
+  
+  artifact "Node.js Runtime" as NodeJS
+  NextApp ..> NodeJS : runs on
+}
+
+node "ML Service Server" {
+  artifact "FastAPI Server" as FastAPI {
+    - Port: 8000
+    - Framework: FastAPI
+    - Language: Python 3.8+
+  }
+  
+  artifact "Python Runtime" as Python
+  FastAPI ..> Python : runs on
+  
+  artifact "ML Models" as Models {
+    - crop_yield_model.pkl
+    - crop_encoder.pkl
+    - season_encoder.pkl
+  }
+  
+  artifact "scikit-learn" as Sklearn
+  FastAPI ..> Sklearn : uses
+  Sklearn ..> Models : loads
+}
+
+cloud "Development Environment" {
+  node "Local Machine" {
+    NextApp
+    FastAPI
+  }
+}
+
+cloud "Production Environment (Future)" {
+  node "Vercel/Netlify" {
+    NextApp
+  }
+  
+  node "AWS/GCP/Azure" {
+    FastAPI
+  }
+}
+
+Browser --> NextApp : HTTP/HTTPS
+NextApp --> FastAPI : HTTP Request
+FastAPI --> Models : File I/O
+
+note right of NextApp
+  Development:
+  - localhost:3000
+  Production:
+  - Deployed on Vercel
+end note
+
+note right of FastAPI
+  Development:
+  - localhost:8000
+  Production:
+  - Containerized (Docker)
+  - Cloud deployment
+end note
+
+@enduml
+
+
+
+
+
+
+
+
+
