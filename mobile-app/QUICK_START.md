@@ -82,3 +82,4 @@ npx expo start -c  # Clear cache
 
 Your app should now work on iOS, Android, and Web!
 
+

@@ -42,3 +42,4 @@ cd /Users/sandeeepkokkonda/Desktop/crope/mobile-app && npm install && npx expo s
 
 After running `npm install`, the error should be fixed!
 
+
