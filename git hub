@@ -1,0 +1,261 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyN8IQ9e5mz7dn8l1S3oKw/r",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Sandeep0806/CROP-YIELD-PREDICTION-USING-ML-/blob/main/git%20hub\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 21,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "BC2dERNDZVmY",
+        "outputId": "923e56c8-b49d-48ed-af24-135ee0c3e6c6"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Solved!\n"
+          ]
+        }
+      ],
+      "source": [
+        "import heapq\n",
+        "def astar(start):\n",
+        "  pq = [(manhattan(start),0, start)]\n",
+        "  visited = set()\n",
+        "  while pq:\n",
+        "    f,g, state = heapq.heappop(pq)\n",
+        "    if state == goal:\n",
+        "      print(\"Solved!\")\n",
+        "      return\n",
+        "    if state in visited:\n",
+        "      continue\n",
+        "    visited.add(state)\n",
+        "    for n in get_neighbors(state):\n",
+        "      heapq.heappush(pq, (g+1+manhattan(n), g+1, n))\n",
+        "start=(1,2,3,4,0,5,6,7,8)\n",
+        "astar(start_state)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)\n",
+        "def manhattan(state):\n",
+        "    dist = 0\n",
+        "    for i in range(9):\n",
+        "        if state[i] != 0:\n",
+        "            goal_pos = goal.index(state[i])\n",
+        "            dist += abs(i // 3 - goal_pos // 3) + abs(i % 3 - goal_pos % 3)\n",
+        "    return dist\n",
+        "\n",
+        "def get_neighbors(state):\n",
+        "    neighbors = []\n",
+        "    idx = state.index(0)\n",
+        "    moves = [-3, 3, -1, 1]\n",
+        "    for m in moves:\n",
+        "        new_idx = idx + m\n",
+        "        if 0 <= new_idx < 9:\n",
+        "            if idx % 3 == 2 and m == 1:\n",
+        "                continue\n",
+        "            if idx % 3 == 0 and m == -1:\n",
+        "                continue\n",
+        "            new_state = list(state)\n",
+        "            new_state[idx], new_state[new_idx] = new_state[new_idx], new_state[idx]\n",
+        "            neighbors.append(tuple(new_state))\n",
+        "    return neighbors\n",
+        "\n",
+        "import heapq\n",
+        "def astar(start):\n",
+        "  pq = [(manhattan(start),0, start)]\n",
+        "  visited = set()\n",
+        "  while pq:\n",
+        "    f,g, state = heapq.heappop(pq)\n",
+        "    if state == goal:\n",
+        "      print(\"Solved!\")\n",
+        "      return\n",
+        "    if state in visited:\n",
+        "      continue\n",
+        "    visited.add(state)\n",
+        "    for n in get_neighbors(state):\n",
+        "      heapq.heappush(pq, (g+1+manhattan(n), g+1, n))\n",
+        "start=(1,2,3,4,0,5,6,7,8)\n",
+        "astar(start_state)\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "AmfJYaRxZYTg",
+        "outputId": "fef9a97b-db01-463a-8af8-91a8dfd48749"
+      },
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Solved!\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "goal = (1, 2, 3, 4, 5, 6, 7, 8, 0)\n",
+        "def manhattan(state):\n",
+        "    dist = 0\n",
+        "    for i in range(9):\n",
+        "        if state[i] != 0:\n",
+        "            goal_pos = goal.index(state[i])\n",
+        "            dist += abs(i // 3 - goal_pos // 3) + abs(i % 3 - goal_pos % 3)\n",
+        "    return dist\n",
+        "\n",
+        "def get_neighbors(state):\n",
+        "    neighbors = []\n",
+        "    idx = state.index(0)\n",
+        "    moves = [-3, 3, -1, 1]\n",
+        "    for m in moves:\n",
+        "        new_idx = idx + m\n",
+        "        if 0 <= new_idx < 9:\n",
+        "            if idx % 3 == 2 and m == 1:\n",
+        "                continue\n",
+        "            if idx % 3 == 0 and m == -1:\n",
+        "                continue\n",
+        "            new_state = list(state)\n",
+        "            new_state[idx], new_state[new_idx] = new_state[new_idx], new_state[idx]\n",
+        "            neighbors.append(tuple(new_state))\n",
+        "    return neighbors\n",
+        "\n",
+        "def astar(start):\n",
+        "    open_list = [(manhattan(start), 0, start)]\n",
+        "    visited = set()\n",
+        "    print(\"Searching...\")\n",
+        "    while open_list:\n",
+        "        current_node = min(open_list, key=lambda x: x[0])\n",
+        "        open_list.remove(current_node)\n",
+        "        f, g, state = current_node\n",
+        "        if state == goal:\n",
+        "            print(\"\\nSuccess!\")\n",
+        "            print(\"Final State:\", state)\n",
+        "            return\n",
+        "        if state in visited:\n",
+        "            continue\n",
+        "        visited.add(state)\n",
+        "        for n in get_neighbors(state):\n",
+        "            if n not in visited:\n",
+        "                g_new = g + 1\n",
+        "                f_new = g_new + manhattan(n)\n",
+        "                open_list.append((f_new, g_new, n))\n",
+        "    print(\"No solution found.\")\n",
+        "start_state = (1, 2, 3, 4, 0, 5, 6, 7, 8)\n",
+        "astar(start_state)"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "XN-BsICRd7L0",
+        "outputId": "e5eca23e-af0d-4643-d1af-241393ffcbe2"
+      },
+      "execution_count": 26,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Searching...\n",
+            "\n",
+            "Success!\n",
+            "Final State: (1, 2, 3, 4, 5, 6, 7, 8, 0)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from collections import  deque\n",
+        "def water_jug():\n",
+        "  start=(0,0)\n",
+        "  goal=2\n",
+        "  visited=set()\n",
+        "  q = deque([(start,[start])])\n",
+        "  while q:\n",
+        "    (x,y),path=q.popleft()\n",
+        "    if x == goal or y==goal:\n",
+        "       print(\"Goal reached:\", (x,y))\n",
+        "       print (\"Action sequence (states):\")\n",
+        "    for step in path:\n",
+        "      print(step)\n",
+        "    return"
+      ],
+      "metadata": {
+        "id": "nggLD-tkZYQg"
+      },
+      "execution_count": 10,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "dc389d79",
+        "outputId": "84b97f2f-7418-48de-8026-1e99b07984aa"
+      },
+      "source": [
+        "water_jug()"
+      ],
+      "execution_count": 13,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "(0, 0)\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "yicBU_LgZYNo"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
